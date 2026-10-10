@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{ELEC8109 Project Proposal}
+\author{Zongqi He, Qingyang Bao, Shengrong Zhang}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Background}
+3D Gaussian Splatting (3DGS) enables real-time novel-view synthesis, but typically assumes an idealized pinhole camera. Real photography, however, is shaped by optical transport across finite apertures, complex lens systems, and sensor exposure. Grounding 3D scene representations in these physical processes allows continuous, view-consistent photographic post-processing.
+
+Recent works adapt finite-aperture optics to 3DGS: Cinematic Gaussians leverages thin-lens models for HDR capture; DoF-Gaussian decouple scene radiance from focal blur; and closed-form polygonal convolutions for defocus.
+
+Despite this progress, existing methods rely on simplified assumptions that fail under spatially varying lens aberrations, programmable aperture transmission, and blur-visibility interactions. We aim to identify where these approximations break down and develop a computationally tractable optical model that provides richer photographic controls while preserving 3DGS's interactive rendering speeds.
+\section{Proposed Approach}
+Our objective is to develop a programmable aperture model for 3DGS that enables post-capture rendering across arbitrary pupil configurations. We explicitly model spatial light transmission across the aperture and parameterize its coupling with depth-dependent defocus blur, extending conventional aperture size and focus distance controls to complex aperture geometries and non-uniform transmission patterns.
+
+Building upon existing depth-of-field formulations, this research addresses how these richer optical controls can be tractably integrated into Gaussian rendering while maintaining strict consistency across viewpoints and scene depths. Specifically, we investigate the trade-off between physical accuracy and real-time efficiency under complex aperture patterns, with particular emphasis on resolving blur-visibility interactions near depth discontinuities.
+\section{Experimental Setup \& Evaluation}
+To validate our programmable aperture formulation, we evaluate rendering fidelity and post-capture controllability across both synthetic and real-world benchmarks:
+
+\begin{itemize}
+    \item \textbf{Datasets:} Following DoF-Gaussian~\cite{dofgaussian} and related depth-of-field literature, we utilize physically based synthetic scenes rendered via Blender with thin-lens optics under systematically varied focal planes, aperture patterns, and scene depths, providing all-in-focus pinhole ground truths. For real-world validation, we evaluate on standard defocused benchmarks (such as the Real-DoF dataset~\cite{realdof}), supplemented by custom multi-view captures captured under diverse aperture geometries (e.g., polygonal blades, coded masks) and pronounced depth discontinuities.
+    \item \textbf{Baselines \& Metrics:} We benchmark against standard 3DGS~\cite{3dgs}, Cinematic Gaussians~\cite{cinematicgaussians}, DoF-Gaussian~\cite{dofgaussian}, and DOF-GS~\cite{dofgs}. Quantitative reconstruction quality is measured via PSNR, SSIM, and LPIPS against reference images. To verify runtime practicality, we evaluate training convergence time, peak GPU memory footprint, and interactive rendering throughput (FPS).
+\end{itemize}
+\section{Expected Contributions}
+This project aims to deliver the following key contributions:
+\begin{itemize}
+    \item \textbf{Programmable Aperture Formulation:} A unified optical formulation that parameterizes spatially varying pupil transmission and arbitrary aperture geometries within the 3DGS pipeline, expanding post-capture photographic expressiveness beyond conventional circular thin-lens approximations.
+    \item \textbf{Systematic Characterization \& Benchmark:} A comprehensive evaluation benchmark analyzing where analytical and ray-based approximations diverge from wave-optics ground truth, establishing concrete trade-offs between physical accuracy and rendering throughput.
+\end{itemize}
+Ultimately, this work bridges the gap between explicit neural representations and physical optical simulation, providing an efficient foundation for computational photography and cinematic post-processing.
+\bibliographystyle{unsrt} %apacite
+\bibliography{reference}
+\end{document}
